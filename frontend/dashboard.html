@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command Center | FaultLens</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>FaultLens</h1>
+          <div class="subtag">Industrial AI</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Operations</div>
+        <a href="dashboard.html" class="nav-item active">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+          Command Center
+        </a>
+        <a href="assets.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          Transformer Fleet
+        </a>
+        <a href="simulation.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+          What-If Simulator
+        </a>
+
+        <div class="nav-section-title">Intervention & Triage</div>
+        <a href="maintenance.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          Maintenance Tracker
+          <span class="nav-badge" id="sidebarTasksCount">0</span>
+        </a>
+        <a href="alerts.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+          Alerts Triage
+          <span class="nav-badge" id="sidebarAlertsCount">0</span>
+        </a>
+        <a href="reports.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+          Field Reports
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar" id="userAvatar">OP</div>
+          <div class="user-info">
+            <div class="name" id="userName">Engineer</div>
+            <div class="role-pill" id="userRole">ADMIN</div>
+          </div>
+          <a href="#" id="logoutBtn" title="Sign out" style="color: var(--text-muted); text-decoration: none;">
+            <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <div class="page-title">
+            <span>Grid AI Operations Center</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="status-indicator">
+            <span class="pulse-dot"></span>
+            <span>TELEMETRY STREAM: ACTIVE</span>
+          </div>
+          <a href="simulation.html" class="btn btn-outline btn-sm">
+            What-If Simulator
+          </a>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Top Metrics KPI Grid -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Fleet Monitored</div>
+            <div class="kpi-value" id="kpiTotalAssets">--</div>
+            <div class="kpi-detail">High-voltage electrical transformers</div>
+          </div>
+
+          <div class="kpi-card critical">
+            <div class="kpi-label" style="color: var(--status-critical);">Critical Risk</div>
+            <div class="kpi-value" id="kpiCritical" style="color: var(--status-critical);">--</div>
+            <div class="kpi-detail">Immediate dispatch required</div>
+          </div>
+
+          <div class="kpi-card high">
+            <div class="kpi-label" style="color: var(--status-high);">High Risk</div>
+            <div class="kpi-value" id="kpiHigh" style="color: var(--status-high);">--</div>
+            <div class="kpi-detail">Probability &gt; 60%</div>
+          </div>
+
+          <div class="kpi-card moderate">
+            <div class="kpi-label" style="color: var(--status-moderate);">Moderate Risk</div>
+            <div class="kpi-value" id="kpiModerate" style="color: var(--status-moderate);">--</div>
+            <div class="kpi-detail">Watchlist monitoring</div>
+          </div>
+
+          <div class="kpi-card healthy">
+            <div class="kpi-label" style="color: var(--status-healthy);">Healthy Assets</div>
+            <div class="kpi-value" id="kpiHealthy" style="color: var(--status-healthy);">--</div>
+            <div class="kpi-detail">Normal baseline range</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">Open Tasks</div>
+            <div class="kpi-value" id="kpiOpenTasks">--</div>
+            <div class="kpi-detail">Active work orders</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">Active Alerts</div>
+            <div class="kpi-value" id="kpiActiveAlerts" style="color: var(--accent-cyan);">--</div>
+            <div class="kpi-detail" id="kpiCritAlerts">-- critical alerts</div>
+          </div>
+        </div>
+
+        <!-- Two Column Main Section: Top Priority Dispatch + Risk Distribution -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 24px;">
+          
+          <!-- Top Assets Requiring Attention -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">
+                  <svg style="width:18px;height:18px;color:var(--status-critical);" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                  Top Assets Requiring Attention
+                </div>
+                <div class="card-subtitle">Algorithmic maintenance priority queue ordered by urgency index</div>
+              </div>
+              <a href="assets.html" class="btn btn-outline btn-sm">View Full Catalog →</a>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Asset Tag</th>
+                    <th>Substation</th>
+                    <th>Failure Prob</th>
+                    <th>Risk Index</th>
+                    <th>Key Contributing Factors</th>
+                    <th>Urgency</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="priorityQueueBody">
+                  <tr>
+                    <td colspan="8" style="text-align: center; color: var(--text-muted);">Loading priority queue...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Fleet Health Distribution & Telemetry Health -->
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Fleet Risk Distribution</div>
+                  <div class="card-subtitle">Overall transformer condition tiers</div>
+                </div>
+              </div>
+              <div id="riskDistributionContainer" style="display: flex; flex-direction: column; gap: 12px;">
+                <!-- Filled via JS -->
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Recent Operational Alerts</div>
+                  <div class="card-subtitle">Latest automated sensor escalations</div>
+                </div>
+                <a href="alerts.html" class="btn btn-outline btn-sm">All Alerts</a>
+              </div>
+              <div id="dashboardAlertsFeed" style="display: flex; flex-direction: column; gap: 10px;">
+                <!-- Filled via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

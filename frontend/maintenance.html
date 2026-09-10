@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maintenance Action Tracker | FaultLens</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .workflow-progress-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-lg);
+      margin-bottom: 24px;
+      overflow-x: auto;
+      gap: 12px;
+    }
+    .stage-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-dim);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+      white-space: nowrap;
+    }
+    .stage-pill.active {
+      border-color: var(--accent-cyan);
+      color: #ffffff;
+      background: rgba(0, 229, 255, 0.08);
+    }
+    .stage-count {
+      padding: 2px 6px;
+      border-radius: 10px;
+      background: var(--bg-tertiary);
+      color: var(--accent-cyan);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>FaultLens</h1>
+          <div class="subtag">Industrial AI</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Operations</div>
+        <a href="dashboard.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+          Command Center
+        </a>
+        <a href="assets.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          Transformer Fleet
+        </a>
+        <a href="simulation.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+          What-If Simulator
+        </a>
+
+        <div class="nav-section-title">Intervention & Triage</div>
+        <a href="maintenance.html" class="nav-item active">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          Maintenance Tracker
+        </a>
+        <a href="alerts.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+          Alerts Triage
+        </a>
+        <a href="reports.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+          Field Reports
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar" id="userAvatar">OP</div>
+          <div class="user-info">
+            <div class="name" id="userName">Engineer</div>
+            <div class="role-pill" id="userRole">ADMIN</div>
+          </div>
+          <a href="#" id="logoutBtn" title="Sign out" style="color: var(--text-muted); text-decoration: none;">
+            <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <div class="page-title">
+            <span>Maintenance Action Tracker</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-primary btn-sm tech-only" id="openCreateTaskBtn">
+            + New Action Task
+          </button>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- 7-Stage Workflow Progress Indicators -->
+        <div class="workflow-progress-bar" id="workflowProgressBar">
+          <!-- Populated via JS -->
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="card" style="margin-bottom: 20px; padding: 14px 20px;">
+          <div style="display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <select id="taskStatusFilter" class="form-select" style="width: 200px;">
+                <option value="">All Workflow Stages</option>
+                <option value="DETECTED">1. Detected</option>
+                <option value="RISK_ASSESSED">2. Risk Assessed</option>
+                <option value="INSPECTION_REQUIRED">3. Inspection Required</option>
+                <option value="ASSIGNED">4. Assigned</option>
+                <option value="IN_PROGRESS">5. In Progress</option>
+                <option value="RESOLVED">6. Resolved</option>
+                <option value="VERIFIED">7. Verified</option>
+              </select>
+
+              <select id="taskPriorityFilter" class="form-select" style="width: 160px;">
+                <option value="">All Priorities</option>
+                <option value="CRITICAL">Critical</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+              </select>
+            </div>
+
+            <div style="font-size: 12px; color: var(--text-muted);" id="tasksCountLabel">
+              Loading active tasks...
+            </div>
+          </div>
+        </div>
+
+        <!-- Tasks Table -->
+        <div class="card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Task Code</th>
+                  <th>Asset Tag</th>
+                  <th>Task Title</th>
+                  <th>Priority</th>
+                  <th>Assigned Technician</th>
+                  <th>Workflow Stage</th>
+                  <th>Due Date</th>
+                  <th>Workflow Action</th>
+                </tr>
+              </thead>
+              <tbody id="tasksTableBody">
+                <tr><td colspan="8" style="text-align:center; color:var(--text-muted);">Loading tasks...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Create Task Modal -->
+  <div class="modal-backdrop" id="createTaskModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-size: 15px; color: #ffffff;">Create Maintenance Action Task</h3>
+        <button id="closeTaskModalBtn" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 18px;">✕</button>
+      </div>
+      <form id="createTaskForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Target Asset</label>
+            <select id="taskAssetSelect" class="form-select" required>
+              <option value="">Select an asset...</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Task Title</label>
+            <input type="text" id="taskTitle" class="form-control" placeholder="e.g. Infrared Thermography & Bushing Overhaul" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label">Priority</label>
+              <select id="taskPriority" class="form-select">
+                <option value="MEDIUM">Medium</option>
+                <option value="HIGH">High</option>
+                <option value="CRITICAL">Critical</option>
+                <option value="LOW">Low</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Due Date</label>
+              <input type="date" id="taskDueDate" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Operational Work Notes</label>
+            <textarea id="taskNotes" class="form-control" rows="3" placeholder="Specific inspection procedures, safety clearance requirements..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancelTaskModalBtn" class="btn btn-outline btn-sm">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Create Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/maintenance.js"></script>
+</body>
+</html>

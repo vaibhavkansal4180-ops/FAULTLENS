@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asset Deep Profile | FaultLens</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .asset-header-card {
+      background: linear-gradient(135deg, var(--bg-card) 0%, #101c36 100%);
+      border: 1px solid var(--border-bright);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .profile-grid-2 {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .param-pill {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+    }
+    .param-pill .label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    .param-pill .val {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 4px;
+      font-family: var(--font-mono);
+    }
+    .chart-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .chart-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .svg-chart {
+      width: 100%;
+      height: 120px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>FaultLens</h1>
+          <div class="subtag">Industrial AI</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Operations</div>
+        <a href="dashboard.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+          Command Center
+        </a>
+        <a href="assets.html" class="nav-item active">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          Transformer Fleet
+        </a>
+        <a href="simulation.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+          What-If Simulator
+        </a>
+
+        <div class="nav-section-title">Intervention & Triage</div>
+        <a href="maintenance.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          Maintenance Tracker
+        </a>
+        <a href="alerts.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+          Alerts Triage
+        </a>
+        <a href="reports.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+          Field Reports
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar" id="userAvatar">OP</div>
+          <div class="user-info">
+            <div class="name" id="userName">Engineer</div>
+            <div class="role-pill" id="userRole">ADMIN</div>
+          </div>
+          <a href="#" id="logoutBtn" title="Sign out" style="color: var(--text-muted); text-decoration: none;">
+            <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <a href="assets.html" class="btn btn-outline btn-sm">← Back to Fleet</a>
+          <div class="page-title" style="margin-left: 10px;">
+            <span id="headerAssetTag">Loading...</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-outline btn-sm" id="triggerSimReadingBtn">
+            ⚡ Ingest Live Telemetry
+          </button>
+          <a href="#" id="openSimulatorForAssetBtn" class="btn btn-cyan btn-sm">
+            What-If Analysis
+          </a>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Asset Header Showcase -->
+        <div class="asset-header-card">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
+                <h1 style="font-size: 28px; font-weight: 900; color: #ffffff; letter-spacing: 0.5px;" id="detailAssetTag">--</h1>
+                <span class="badge" id="detailHealthBadge">--</span>
+                <span class="badge badge-cyan" id="detailOpStatus">--</span>
+              </div>
+              <div style="font-size: 15px; color: var(--text-secondary);" id="detailAssetName">--</div>
+              <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;" id="detailSubstation">--</div>
+            </div>
+
+            <!-- Risk & Probability Gauges -->
+            <div style="display: flex; gap: 24px; align-items: center;">
+              <div style="text-align: right;">
+                <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Composite Risk Index</div>
+                <div style="font-size: 36px; font-weight: 900; color: #ffffff; font-family: var(--font-mono);" id="detailRiskScore">--</div>
+                <div style="font-size: 11px; color: var(--text-secondary);">/ 100 Scale</div>
+              </div>
+
+              <div style="width: 1px; height: 50px; background: var(--border-bright);"></div>
+
+              <div style="text-align: right;">
+                <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">ML Failure Probability</div>
+                <div style="font-size: 36px; font-weight: 900; color: var(--accent-cyan); font-family: var(--font-mono);" id="detailProbScore">--%</div>
+                <div style="font-size: 11px; color: var(--text-secondary);">30-Day Failure Estimate</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metadata Parameters Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 24px;">
+          <div class="param-pill">
+            <div class="label">Rated Capacity</div>
+            <div class="val" id="metaCapacity">-- kVA</div>
+          </div>
+          <div class="param-pill">
+            <div class="label">Service Age</div>
+            <div class="val" id="metaAge">-- yrs</div>
+          </div>
+          <div class="param-pill">
+            <div class="label">Manufacturer</div>
+            <div class="val" id="metaMfr" style="font-family: var(--font-sans); font-size: 13px;">--</div>
+          </div>
+          <div class="param-pill">
+            <div class="label">Cooling Design</div>
+            <div class="val" id="metaCooling">ONAN</div>
+          </div>
+          <div class="param-pill">
+            <div class="label">Last Maintenance</div>
+            <div class="val" id="metaLastMaint">--</div>
+          </div>
+          <div class="param-pill">
+            <div class="label">Historical Faults</div>
+            <div class="val" id="metaFaults" style="color: var(--status-critical);">--</div>
+          </div>
+        </div>
+
+        <!-- 2 Column Layout: Telemetry Trends & Explainable Risk Engine -->
+        <div class="profile-grid-2">
+          
+          <!-- Left Column: Operational Telemetry Trends (Zero-dependency pure SVG charts) -->
+          <div>
+            <div class="card" style="margin-bottom: 24px;">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">
+                    <svg style="width:16px;height:16px;color:var(--accent-cyan);" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    Simulated IoT Operational Telemetry
+                  </div>
+                  <div class="card-subtitle">Physics-coupled real-time condition stream (Load → Temperature → Vibration)</div>
+                </div>
+                <span class="badge badge-cyan">SIMULATED SENSOR FEED</span>
+              </div>
+
+              <!-- Live Reading Current Snapshot Cards -->
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;">
+                <div class="param-pill" style="border-left: 3px solid var(--accent-blue);">
+                  <div class="label">Top-Oil Temp</div>
+                  <div class="val" id="liveTemp">--°C</div>
+                </div>
+                <div class="param-pill" style="border-left: 3px solid var(--accent-cyan);">
+                  <div class="label">Feeder Load</div>
+                  <div class="val" id="liveLoad">--%</div>
+                </div>
+                <div class="param-pill" style="border-left: 3px solid #b388ff;">
+                  <div class="label">Core Vibration</div>
+                  <div class="val" id="liveVib">-- mm/s</div>
+                </div>
+                <div class="param-pill" style="border-left: 3px solid #00e676;">
+                  <div class="label">Dielectric Oil</div>
+                  <div class="val" id="liveOil">--%</div>
+                </div>
+              </div>
+
+              <!-- Temperature Trend SVG Chart -->
+              <div class="chart-box">
+                <div class="chart-box-header">
+                  <span style="color: #ff9100;">Winding & Oil Temperature Trend (°C)</span>
+                  <span id="chartTempStats" style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">Avg: --°C | Max: --°C</span>
+                </div>
+                <svg id="svgTempChart" class="svg-chart" viewBox="0 0 600 120"></svg>
+              </div>
+
+              <!-- Load Percentage Trend SVG Chart -->
+              <div class="chart-box">
+                <div class="chart-box-header">
+                  <span style="color: var(--accent-cyan);">Transformer Loading Profile (% Nameplate)</span>
+                  <span id="chartLoadStats" style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">Avg: --% | Max: --%</span>
+                </div>
+                <svg id="svgLoadChart" class="svg-chart" viewBox="0 0 600 120"></svg>
+              </div>
+
+              <!-- Mechanical Vibration Trend SVG Chart -->
+              <div class="chart-box">
+                <div class="chart-box-header">
+                  <span style="color: #b388ff;">Mechanical Core Vibration (mm/s RMS)</span>
+                  <span id="chartVibStats" style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">Avg: -- mm/s</span>
+                </div>
+                <svg id="svgVibChart" class="svg-chart" viewBox="0 0 600 120"></svg>
+              </div>
+            </div>
+
+            <!-- Maintenance & Inspection Records -->
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Maintenance & Inspection History</div>
+                  <div class="card-subtitle">Chronological record of physical interventions and oil dielectric testing</div>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Type</th>
+                      <th>Technician / Inspector</th>
+                      <th>Condition / Findings</th>
+                      <th>Downtime</th>
+                    </tr>
+                  </thead>
+                  <tbody id="maintenanceHistoryBody">
+                    <tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Loading historical records...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Explainable Risk Breakdown & ML Decision Support -->
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            
+            <!-- Explainable Risk Engine Breakdown -->
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">
+                    <svg style="width:16px;height:16px;color:var(--status-critical);" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Explainable Risk Breakdown
+                  </div>
+                  <div class="card-subtitle">Transparent factor attribution: WHY this asset is at risk</div>
+                </div>
+              </div>
+
+              <div id="riskFactorsContainer" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
+                <!-- Filled via JS -->
+              </div>
+
+              <div style="padding: 12px; background: var(--bg-secondary); border-radius: var(--radius-md); border: 1px solid var(--border-dim); font-size: 11px; color: var(--text-muted);">
+                <strong style="color: var(--accent-cyan);">Prototype Risk Model v1.2:</strong>
+                Risk is calculated additively across physical sensor deviations, maintenance intervals, and recurrent breakdown history.
+              </div>
+            </div>
+
+            <!-- Machine Learning Feature Attribution -->
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">ML Prediction Layer</div>
+                  <div class="card-subtitle">Calibrated Logistic Classifier feature weights</div>
+                </div>
+              </div>
+
+              <div id="mlContributionsContainer" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
+                <!-- Filled via JS -->
+              </div>
+
+              <div style="padding: 10px; background: rgba(255, 179, 0, 0.08); border: 1px solid rgba(255, 179, 0, 0.25); border-radius: var(--radius-sm); font-size: 11px; color: var(--status-moderate);">
+                <strong>Honest AI Disclosure:</strong> Prototype model trained on demonstration telemetry. Utility deployment requires domain-specific calibration with certified DGA laboratory data.
+              </div>
+            </div>
+
+            <!-- Recommended Actions Engine -->
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">System Recommendations</div>
+                  <div class="card-subtitle">Automated engineering decision-support directives</div>
+                </div>
+              </div>
+              <div id="recommendationsContainer" style="display: flex; flex-direction: column; gap: 10px;">
+                <!-- Filled via JS -->
+              </div>
+              <div style="font-size: 10px; color: var(--text-muted); margin-top: 10px; text-align: center;">
+                * System Decision Support Directive — Does not supersede certified utility engineer sign-off.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/asset-detail.js"></script>
+</body>
+</html>

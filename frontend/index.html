@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FaultLens | Predictive Infrastructure Maintenance Platform</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    /* Landing page specific styling */
+    .landing-nav {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      border-bottom: 1px solid var(--border-dim);
+      background: rgba(6, 10, 18, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      backdrop-filter: blur(8px);
+    }
+    .landing-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .landing-nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color var(--transition-fast);
+    }
+    .landing-nav-links a:hover {
+      color: var(--accent-cyan);
+    }
+    .hero-section {
+      padding: 100px 48px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(0, 102, 255, 0.12);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      color: var(--accent-cyan);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      box-shadow: var(--glow-cyan);
+    }
+    .hero-title {
+      font-size: 56px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 40%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-tagline {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--accent-cyan);
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+    }
+    .hero-desc {
+      font-size: 17px;
+      color: var(--text-secondary);
+      max-width: 780px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin-bottom: 64px;
+    }
+    .workflow-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin: 50px 0;
+      padding: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-bright);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .flow-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+    }
+    .flow-step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--accent-blue);
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .flow-step-name {
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 1px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+    .flow-arrow {
+      color: var(--accent-cyan);
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 48px;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .section-tag {
+      color: var(--accent-cyan);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .section-heading {
+      font-size: 34px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: all var(--transition-normal);
+    }
+    .feature-card:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.5), var(--glow-cyan);
+    }
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: rgba(0, 102, 255, 0.15);
+      border: 1px solid var(--accent-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      color: var(--accent-cyan);
+    }
+    .feature-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+    .feature-desc {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .landing-footer {
+      border-top: 1px solid var(--border-dim);
+      padding: 40px 48px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+      background: var(--bg-secondary);
+    }
+    .badge-disclaimer {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 179, 0, 0.1);
+      border: 1px solid rgba(255, 179, 0, 0.3);
+      color: var(--status-moderate);
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="landing-nav">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      <div class="brand-text">
+        <h1>FaultLens</h1>
+        <div class="subtag">Infrastructure AI</div>
+      </div>
+    </div>
+    <nav class="landing-nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#workflow">Workflow</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#simulation">What-If Engine</a>
+      <a href="/login.html" class="btn btn-outline btn-sm">Sign In</a>
+      <a href="/dashboard.html" class="btn btn-cyan btn-sm">Command Center</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-badge">
+      <span class="pulse-dot"></span>
+      Industrial Predictive Infrastructure Maintenance
+    </div>
+    <h1 class="hero-title">FAULTLENS</h1>
+    <div class="hero-tagline">“Predict failures. Prioritize maintenance. Prevent downtime.”</div>
+    <p class="hero-desc">
+      An intelligent predictive maintenance platform that transforms operational signals, IoT telemetry, and maintenance history into actionable infrastructure risk insights for high-voltage electrical transformers.
+    </p>
+    <div class="hero-actions">
+      <a href="/dashboard.html" class="btn btn-primary" style="padding: 12px 28px; font-size: 15px;">
+        <svg style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        Open Command Center
+      </a>
+      <a href="/assets.html" class="btn btn-outline" style="padding: 12px 28px; font-size: 15px;">
+        <svg style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+        Explore Assets
+      </a>
+    </div>
+
+    <!-- The 7-Stage Industrial Workflow -->
+    <div class="workflow-flow" id="workflow">
+      <div class="flow-step">
+        <div class="flow-step-num">01</div>
+        <div class="flow-step-name">Monitor</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-step-num">02</div>
+        <div class="flow-step-name">Detect</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-step-num">03</div>
+        <div class="flow-step-name">Predict</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-step-num">04</div>
+        <div class="flow-step-name">Explain</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-step-num">05</div>
+        <div class="flow-step-name">Prioritize</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-step-num">06</div>
+        <div class="flow-step-name">Act</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-step-num">07</div>
+        <div class="flow-step-name">Track</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem Section -->
+  <section class="section-container" id="problem" style="background: var(--bg-secondary); border-top: 1px solid var(--border-dim); border-bottom: 1px solid var(--border-dim);">
+    <div class="section-header">
+      <div class="section-tag">Industry Challenge</div>
+      <h2 class="section-heading">The Cost of Reactive Infrastructure Maintenance</h2>
+      <p style="color: var(--text-secondary); max-width: 650px; margin: 12px auto 0;">
+        Power utilities discover catastrophic failures only after a substation breaker trips or a transformer catches fire.
+      </p>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <h3 style="color: var(--status-critical); font-size: 16px; margin-bottom: 8px;">Unplanned Blackouts</h3>
+        <p style="color: var(--text-secondary); font-size: 13px;">Sudden dielectric breakdown causes multi-hour industrial grid outages and millions in penalty costs.</p>
+      </div>
+      <div class="card">
+        <h3 style="color: var(--status-high); font-size: 16px; margin-bottom: 8px;">Unprioritized Work Orders</h3>
+        <p style="color: var(--text-secondary); font-size: 13px;">Maintenance teams dispatch technicians to healthy units while critical degraded units near thermal flashover remain uninspected.</p>
+      </div>
+      <div class="card">
+        <h3 style="color: var(--status-moderate); font-size: 16px; margin-bottom: 8px;">Black-Box AI Skepticism</h3>
+        <p style="color: var(--text-secondary); font-size: 13px;">Engineers reject opaque probability numbers without clear, physics-informed contributing factors explaining why an asset is at risk.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Capabilities -->
+  <section class="section-container" id="capabilities">
+    <div class="section-header">
+      <div class="section-tag">Core Architecture</div>
+      <h2 class="section-heading">Engineered for Industrial Decision Support</h2>
+    </div>
+    <div class="grid-3">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg style="width:24px;height:24px;" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="feature-title">Explainable Risk Scoring</h3>
+        <p class="feature-desc">Deconstructs composite risk into transparent additive factors: winding temperature surges, harmonic vibration, load stress, and maintenance interval gaps.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg style="width:24px;height:24px;" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+        </div>
+        <h3 class="feature-title">Machine Learning Prediction</h3>
+        <p class="feature-desc">Calibrated failure probability modeling (0–100%) trained on multi-variable transformer degradation features with interpretable coefficient analysis.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg style="width:24px;height:24px;" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"/></svg>
+        </div>
+        <h3 class="feature-title">Resource Prioritization</h3>
+        <p class="feature-desc">Algorithmic dispatch index ranking transformers across substations to optimize constrained maintenance crews and minimize system downtime.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg style="width:24px;height:24px;" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+        </div>
+        <h3 class="feature-title" id="simulation">What-If Scenario Simulator</h3>
+        <p class="feature-desc">Simulate hypothetical grid stress scenarios (+15% load, +5°C temperature) to preview risk score deltas before implementing feeder reconfigurations.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg style="width:24px;height:24px;" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+        </div>
+        <h3 class="feature-title">7-Stage Action Tracker</h3>
+        <p class="feature-desc">Complete end-to-end task progression: Detected → Risk Assessed → Inspection Required → Assigned → In Progress → Resolved → Verified.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg style="width:24px;height:24px;" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        </div>
+        <h3 class="feature-title">Field Incident Escalation</h3>
+        <p class="feature-desc">Technician observations immediately update asset risk models and trigger automated high-severity alerts when abnormal physical conditions recur.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer with Honest AI Disclaimer -->
+  <footer class="landing-footer">
+    <div style="font-weight: 700; color: #ffffff; letter-spacing: 1px; margin-bottom: 8px;">FAULTLENS OPERATIONS PLATFORM</div>
+    <div>Predict failures. Prioritize maintenance. Prevent downtime.</div>
+    <div class="badge-disclaimer">
+      Prototype Platform: Uses physics-simulated IoT telemetry and demonstration machine learning models for decision-support evaluation.
+    </div>
+    <div style="margin-top: 16px;">
+      <a href="/dashboard.html" style="color: var(--accent-cyan); text-decoration: none; margin: 0 12px;">Command Center</a>
+      <a href="/assets.html" style="color: var(--accent-cyan); text-decoration: none; margin: 0 12px;">Assets</a>
+      <a href="/simulation.html" style="color: var(--accent-cyan); text-decoration: none; margin: 0 12px;">What-If Simulator</a>
+      <a href="/login.html" style="color: var(--accent-cyan); text-decoration: none; margin: 0 12px;">Demo Login</a>
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authentication | FaultLens Industrial AI</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .auth-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: radial-gradient(circle at center, #0e172c 0%, #060a12 100%);
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-bright);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.7), var(--glow-blue);
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .demo-selector {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-dim);
+    }
+    .demo-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .demo-btn {
+      padding: 8px 4px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-dim);
+      color: var(--text-secondary);
+      cursor: pointer;
+      text-align: center;
+      transition: all var(--transition-fast);
+      font-family: var(--font-mono);
+    }
+    .demo-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      background: rgba(0, 229, 255, 0.08);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div style="display: flex; justify-content: center; margin-bottom: 12px;">
+          <div class="brand-icon" style="width: 42px; height: 42px;">
+            <svg style="width:24px;height:24px;" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+        </div>
+        <h2 style="font-size: 22px; font-weight: 800; letter-spacing: 1px; color: #ffffff;">FAULTLENS ACCESS</h2>
+        <p style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Industrial Operations Center</p>
+      </div>
+
+      <div id="authAlert" style="display: none; padding: 10px; border-radius: var(--radius-sm); font-size: 12px; margin-bottom: 16px; background: rgba(255, 61, 0, 0.15); border: 1px solid var(--status-critical); color: var(--status-critical);"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label class="form-label">Username or Email</label>
+          <input type="text" id="loginUsername" class="form-control" placeholder="e.g. admin" required value="admin">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required value="admin123">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px; padding: 12px;">
+          Authenticate Session
+        </button>
+      </form>
+
+      <!-- 1-Click Persona Switcher for Evaluation -->
+      <div class="demo-selector">
+        <div style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; text-align: center; letter-spacing: 0.5px;">
+          Quick 1-Click Demo Personas
+        </div>
+        <div class="demo-buttons">
+          <button type="button" class="demo-btn" onclick="fillDemo('admin', 'admin123')">
+            ADMIN
+          </button>
+          <button type="button" class="demo-btn" onclick="fillDemo('technician', 'tech123')">
+            TECHNICIAN
+          </button>
+          <button type="button" class="demo-btn" onclick="fillDemo('viewer', 'viewer123')">
+            VIEWER
+          </button>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 24px;">
+        <a href="/" style="color: var(--text-muted); font-size: 12px; text-decoration: none;">← Return to Landing Page</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script>
+    function fillDemo(username, pass) {
+      document.getElementById('loginUsername').value = username;
+      document.getElementById('loginPassword').value = pass;
+      document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const alertBox = document.getElementById('authAlert');
+      alertBox.style.display = 'none';
+
+      const u = document.getElementById('loginUsername').value.trim();
+      const p = document.getElementById('loginPassword').value;
+
+      try {
+        const res = await API.login(u, p);
+        window.location.href = '/dashboard.html';
+      } catch (err) {
+        alertBox.textContent = err.message || 'Authentication failed.';
+        alertBox.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technician Field Incident Reports | FaultLens</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>FaultLens</h1>
+          <div class="subtag">Industrial AI</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Operations</div>
+        <a href="dashboard.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+          Command Center
+        </a>
+        <a href="assets.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          Transformer Fleet
+        </a>
+        <a href="simulation.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+          What-If Simulator
+        </a>
+
+        <div class="nav-section-title">Intervention & Triage</div>
+        <a href="maintenance.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          Maintenance Tracker
+        </a>
+        <a href="alerts.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+          Alerts Triage
+        </a>
+        <a href="reports.html" class="nav-item active">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+          Field Reports
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar" id="userAvatar">OP</div>
+          <div class="user-info">
+            <div class="name" id="userName">Engineer</div>
+            <div class="role-pill" id="userRole">ADMIN</div>
+          </div>
+          <a href="#" id="logoutBtn" title="Sign out" style="color: var(--text-muted); text-decoration: none;">
+            <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <div class="page-title">
+            <span>Field Incident & Observation Reports</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-primary btn-sm" id="openReportModalBtn">
+            + Submit Field Observation
+          </button>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Filter Toolbar -->
+        <div class="card" style="margin-bottom: 20px; padding: 14px 20px;">
+          <div style="display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <select id="reportCategoryFilter" class="form-select" style="width: 180px;">
+                <option value="">All Categories</option>
+                <option value="TEMPERATURE">Temperature</option>
+                <option value="VIBRATION">Vibration</option>
+                <option value="VOLTAGE">Voltage Anomaly</option>
+                <option value="PHYSICAL_DAMAGE">Physical Damage</option>
+                <option value="NOISE">Acoustic / Buzzing</option>
+                <option value="OIL_LEAK">Dielectric Oil Leak</option>
+                <option value="OTHER">Other Observation</option>
+              </select>
+
+              <select id="reportSeverityFilter" class="form-select" style="width: 160px;">
+                <option value="">All Severities</option>
+                <option value="CRITICAL">Critical</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+              </select>
+            </div>
+
+            <div style="font-size: 12px; color: var(--text-muted);" id="reportsCountLabel">
+              Loading incident records...
+            </div>
+          </div>
+        </div>
+
+        <!-- Reports Table -->
+        <div class="card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Report Time</th>
+                  <th>Asset Tag</th>
+                  <th>Category</th>
+                  <th>Severity</th>
+                  <th>Observation Title & Summary</th>
+                  <th>Reporter</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="reportsTableBody">
+                <tr><td colspan="7" style="text-align:center; color:var(--text-muted);">Loading field reports...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Submit Report Modal -->
+  <div class="modal-backdrop" id="createReportModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-size: 15px; color: #ffffff;">Submit Technician Observation</h3>
+        <button id="closeReportModalBtn" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 18px;">✕</button>
+      </div>
+      <form id="createReportForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Observed Transformer Asset</label>
+            <select id="repAssetSelect" class="form-select" required>
+              <option value="">Select asset...</option>
+            </select>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label">Incident Category</label>
+              <select id="repCategory" class="form-select">
+                <option value="VIBRATION">Vibration / Harmonics</option>
+                <option value="TEMPERATURE">Temperature / Hotspot</option>
+                <option value="NOISE">Unusual Audible Humming</option>
+                <option value="OIL_LEAK">Oil Seepage / Low Level</option>
+                <option value="PHYSICAL_DAMAGE">Physical Damage / Rust</option>
+                <option value="VOLTAGE">Voltage / Tap Surge</option>
+                <option value="OTHER">Other Anomaly</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Severity Level</label>
+              <select id="repSeverity" class="form-select">
+                <option value="MEDIUM">Medium Severity</option>
+                <option value="HIGH">High Severity</option>
+                <option value="CRITICAL">Critical Emergency</option>
+                <option value="LOW">Low / Informational</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Observation Title</label>
+            <input type="text" id="repTitle" class="form-control" placeholder="e.g. Unusual coil vibration detected under heavy load" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Detailed Physical Observations</label>
+            <textarea id="repDescription" class="form-control" rows="3" placeholder="Describe sensory observations, bushing conditions, oil discoloration, audible noise..." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancelReportModalBtn" class="btn btn-outline btn-sm">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Submit Report</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/reports.js"></script>
+</body>
+</html>

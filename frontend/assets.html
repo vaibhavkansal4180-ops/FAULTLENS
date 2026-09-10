@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transformer Fleet Catalog | FaultLens</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>FaultLens</h1>
+          <div class="subtag">Industrial AI</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Operations</div>
+        <a href="dashboard.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+          Command Center
+        </a>
+        <a href="assets.html" class="nav-item active">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          Transformer Fleet
+        </a>
+        <a href="simulation.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+          What-If Simulator
+        </a>
+
+        <div class="nav-section-title">Intervention & Triage</div>
+        <a href="maintenance.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          Maintenance Tracker
+        </a>
+        <a href="alerts.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+          Alerts Triage
+        </a>
+        <a href="reports.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+          Field Reports
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar" id="userAvatar">OP</div>
+          <div class="user-info">
+            <div class="name" id="userName">Engineer</div>
+            <div class="role-pill" id="userRole">ADMIN</div>
+          </div>
+          <a href="#" id="logoutBtn" title="Sign out" style="color: var(--text-muted); text-decoration: none;">
+            <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <div class="page-title">
+            <span>Transformer Asset Directory</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-primary btn-sm admin-only" id="openCreateModalBtn">
+            + Register Asset
+          </button>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Filter Toolbar -->
+        <div class="card" style="margin-bottom: 24px; padding: 16px 20px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between;">
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; flex: 1;">
+              <!-- Search Bar -->
+              <div style="min-width: 240px; flex: 1;">
+                <input type="text" id="assetSearchInput" class="form-control" placeholder="Search by tag, name, substation, manufacturer...">
+              </div>
+
+              <!-- Health Status Filter -->
+              <div style="width: 160px;">
+                <select id="healthFilter" class="form-select">
+                  <option value="">All Health Tiers</option>
+                  <option value="CRITICAL">Critical Risk</option>
+                  <option value="HIGH">High Risk</option>
+                  <option value="MODERATE">Moderate Risk</option>
+                  <option value="HEALTHY">Healthy</option>
+                </select>
+              </div>
+
+              <!-- Operational Status Filter -->
+              <div style="width: 170px;">
+                <select id="statusFilter" class="form-select">
+                  <option value="">All Op Statuses</option>
+                  <option value="OPERATIONAL">Operational</option>
+                  <option value="MAINTENANCE_REQUIRED">Maint Required</option>
+                  <option value="UNDER_MAINTENANCE">Under Maint</option>
+                </select>
+              </div>
+
+              <!-- Sort Order -->
+              <div style="width: 180px;">
+                <select id="sortBySelect" class="form-select">
+                  <option value="risk_desc">Highest Risk First</option>
+                  <option value="prob_desc">Highest Prob First</option>
+                  <option value="age_desc">Oldest Asset First</option>
+                  <option value="failures_desc">Most Past Faults</option>
+                  <option value="tag_asc">Asset Tag (A-Z)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <button id="resetFiltersBtn" class="btn btn-outline btn-sm">Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Asset Catalog Table -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Monitored Assets Catalog</div>
+              <div class="card-subtitle" id="assetCountSubtitle">Showing assets</div>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Tag</th>
+                  <th>Name & Substation</th>
+                  <th>Health Tier</th>
+                  <th>Risk Score</th>
+                  <th>Failure Prob</th>
+                  <th>Capacity</th>
+                  <th>Age</th>
+                  <th>Last Maint</th>
+                  <th>Prior Faults</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="assetsTableBody">
+                <tr>
+                  <td colspan="10" style="text-align: center; color: var(--text-muted);">Loading asset catalog...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-dim);">
+            <div style="font-size: 12px; color: var(--text-muted);" id="paginationInfo">Page 1 of 1</div>
+            <div style="display: flex; gap: 8px;">
+              <button id="prevPageBtn" class="btn btn-outline btn-sm" disabled>Previous</button>
+              <button id="nextPageBtn" class="btn btn-outline btn-sm" disabled>Next</button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Create Asset Modal (Admin Only) -->
+  <div class="modal-backdrop" id="createAssetModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-size: 15px; color: #ffffff;">Register New Electrical Transformer</h3>
+        <button id="closeModalBtn" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 18px;">✕</button>
+      </div>
+      <form id="createAssetForm">
+        <div class="modal-body">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label">Asset Tag</label>
+              <input type="text" id="newTag" class="form-control" placeholder="e.g. FL-050" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Name</label>
+              <input type="text" id="newName" class="form-control" placeholder="e.g. Feeder Unit 50" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label">Substation</label>
+              <input type="text" id="newSubstation" class="form-control" placeholder="e.g. North Grid Substation" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Location</label>
+              <input type="text" id="newLocation" class="form-control" placeholder="e.g. Sector 8 Vault" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label">Manufacturer</label>
+              <input type="text" id="newMfr" class="form-control" placeholder="e.g. Siemens Energy" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Model</label>
+              <input type="text" id="newModel" class="form-control" placeholder="e.g. Troniq T-500" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label">Capacity (kVA)</label>
+              <input type="number" id="newCapacity" class="form-control" placeholder="e.g. 1000" required value="1000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Install Date</label>
+              <input type="date" id="newInstallDate" class="form-control" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancelModalBtn" class="btn btn-outline btn-sm">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save Asset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/assets.js"></script>
+</body>
+</html>

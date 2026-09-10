@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What-If Scenario Simulator | FaultLens</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .slider-container {
+      margin-bottom: 20px;
+    }
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .slider-val {
+      font-family: var(--font-mono);
+      color: var(--accent-cyan);
+      font-size: 13px;
+    }
+    .sim-slider {
+      width: 100%;
+      height: 6px;
+      background: var(--bg-tertiary);
+      border-radius: 3px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    .sim-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      cursor: pointer;
+      box-shadow: var(--glow-cyan);
+    }
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .delta-banner {
+      background: linear-gradient(90deg, rgba(0, 102, 255, 0.15), rgba(0, 229, 255, 0.08));
+      border: 1px solid var(--accent-cyan);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      margin-bottom: 24px;
+      box-shadow: var(--glow-cyan);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>FaultLens</h1>
+          <div class="subtag">Industrial AI</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Operations</div>
+        <a href="dashboard.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+          Command Center
+        </a>
+        <a href="assets.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          Transformer Fleet
+        </a>
+        <a href="simulation.html" class="nav-item active">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+          What-If Simulator
+        </a>
+
+        <div class="nav-section-title">Intervention & Triage</div>
+        <a href="maintenance.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          Maintenance Tracker
+        </a>
+        <a href="alerts.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+          Alerts Triage
+        </a>
+        <a href="reports.html" class="nav-item">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+          Field Reports
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar" id="userAvatar">OP</div>
+          <div class="user-info">
+            <div class="name" id="userName">Engineer</div>
+            <div class="role-pill" id="userRole">ADMIN</div>
+          </div>
+          <a href="#" id="logoutBtn" title="Sign out" style="color: var(--text-muted); text-decoration: none;">
+            <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <div class="page-title">
+            <span>What-If Scenario Simulator</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <span class="badge badge-cyan">DECISION SUPPORT TOOL</span>
+        </div>
+      </header>
+
+      <main class="content-body">
+        
+        <!-- Asset Selector & Scenario Setup -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Select Target Transformer & Scenario Baseline</div>
+              <div class="card-subtitle">Choose a transformer to test hypothetical grid loads, ambient heatwaves, or maintenance postponements</div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 16px; align-items: center;">
+            <div style="flex: 1;">
+              <select id="simAssetSelect" class="form-select">
+                <option value="">Loading fleet transformers...</option>
+              </select>
+            </div>
+            <button id="resetScenarioBtn" class="btn btn-outline btn-sm">Reset to Baseline</button>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 24px;">
+          
+          <!-- Sliders Control Panel -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Scenario Parameters</div>
+            </div>
+
+            <!-- Slider 1: Load Delta -->
+            <div class="slider-container">
+              <div class="slider-header">
+                <span>Feeder Load Shift (%)</span>
+                <span class="slider-val" id="valLoadDelta">+15%</span>
+              </div>
+              <input type="range" id="sliderLoad" class="sim-slider" min="-30" max="50" step="5" value="15">
+            </div>
+
+            <!-- Slider 2: Temperature Delta -->
+            <div class="slider-container">
+              <div class="slider-header">
+                <span>Temperature Drift (°C)</span>
+                <span class="slider-val" id="valTempDelta">+8°C</span>
+              </div>
+              <input type="range" id="sliderTemp" class="sim-slider" min="-10" max="30" step="1" value="8">
+            </div>
+
+            <!-- Slider 3: Vibration Delta -->
+            <div class="slider-container">
+              <div class="slider-header">
+                <span>Mechanical Vibration Surge (mm/s)</span>
+                <span class="slider-val" id="valVibDelta">+1.5 mm/s</span>
+              </div>
+              <input type="range" id="sliderVib" class="sim-slider" min="-1.0" max="4.0" step="0.2" value="1.5">
+            </div>
+
+            <!-- Slider 4: Maintenance Delay -->
+            <div class="slider-container">
+              <div class="slider-header">
+                <span>Postpone Maintenance By (Days)</span>
+                <span class="slider-val" id="valMaintDelta">+90 days</span>
+              </div>
+              <input type="range" id="sliderMaint" class="sim-slider" min="0" max="365" step="15" value="90">
+            </div>
+
+            <!-- Slider 5: Additional Faults -->
+            <div class="slider-container">
+              <div class="slider-header">
+                <span>Recurrent Fault Count Added</span>
+                <span class="slider-val" id="valFaultsDelta">+1 fault</span>
+              </div>
+              <input type="range" id="sliderFaults" class="sim-slider" min="0" max="3" step="1" value="1">
+            </div>
+
+            <div style="padding: 12px; background: rgba(255, 179, 0, 0.08); border: 1px solid rgba(255, 179, 0, 0.25); border-radius: var(--radius-sm); font-size: 11px; color: var(--status-moderate); margin-top: 10px;">
+              <strong>Sensitivity Analysis Tool:</strong> Modeling shows non-linear risk escalation when high operational loads coincide with delayed preventive maintenance.
+            </div>
+          </div>
+
+          <!-- Impact Comparison & Delta Banner -->
+          <div>
+            <!-- Live Delta Summary Banner -->
+            <div class="delta-banner" id="deltaBanner">
+              <div style="text-align: center;">
+                <div style="font-size: 11px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700;">Risk Score Delta</div>
+                <div style="font-size: 26px; font-weight: 900; color: var(--status-critical); font-family: var(--font-mono);" id="deltaRiskScore">+0.0</div>
+              </div>
+              <div style="text-align: center;">
+                <div style="font-size: 11px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700;">Failure Prob Delta</div>
+                <div style="font-size: 26px; font-weight: 900; color: var(--accent-cyan); font-family: var(--font-mono);" id="deltaProbPct">+0.0%</div>
+              </div>
+              <div style="text-align: center;">
+                <div style="font-size: 11px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700;">Projected Health</div>
+                <div style="font-size: 16px; font-weight: 800; margin-top: 6px;" id="deltaHealthStatus">MODERATE</div>
+              </div>
+            </div>
+
+            <!-- Side-by-side Baseline vs Projected Cards -->
+            <div class="comparison-grid">
+              
+              <!-- Baseline Card -->
+              <div class="card" style="border-top: 3px solid var(--border-bright);">
+                <div class="card-header" style="margin-bottom: 12px;">
+                  <div class="card-title" style="font-size: 12px; color: var(--text-secondary);">Current Baseline State</div>
+                  <span class="badge" id="baseHealthBadge">--</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;">
+                  <div>
+                    <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">Risk Score</div>
+                    <div style="font-size: 24px; font-weight: 900; color: #ffffff; font-family: var(--font-mono);" id="baseRiskScore">--</div>
+                  </div>
+                  <div style="text-align: right;">
+                    <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">Failure Prob</div>
+                    <div style="font-size: 24px; font-weight: 900; color: var(--accent-cyan); font-family: var(--font-mono);" id="baseProbPct">--%</div>
+                  </div>
+                </div>
+
+                <div style="font-size: 12px; display: flex; flex-direction: column; gap: 6px; color: var(--text-secondary);">
+                  <div>Winding Temp: <strong id="baseTemp" style="color:#ffffff;">--°C</strong></div>
+                  <div>Feeder Load: <strong id="baseLoad" style="color:#ffffff;">--%</strong></div>
+                  <div>Vibration: <strong id="baseVib" style="color:#ffffff;">-- mm/s</strong></div>
+                  <div>Maint Gap: <strong id="baseMaint" style="color:#ffffff;">-- days</strong></div>
+                </div>
+              </div>
+
+              <!-- Projected Scenario Card -->
+              <div class="card" style="border-top: 3px solid var(--status-critical);">
+                <div class="card-header" style="margin-bottom: 12px;">
+                  <div class="card-title" style="font-size: 12px; color: var(--status-critical);">Projected Scenario State</div>
+                  <span class="badge" id="projHealthBadge">--</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;">
+                  <div>
+                    <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">Projected Risk</div>
+                    <div style="font-size: 24px; font-weight: 900; color: var(--status-critical); font-family: var(--font-mono);" id="projRiskScore">--</div>
+                  </div>
+                  <div style="text-align: right;">
+                    <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">Projected Prob</div>
+                    <div style="font-size: 24px; font-weight: 900; color: var(--status-critical); font-family: var(--font-mono);" id="projProbPct">--%</div>
+                  </div>
+                </div>
+
+                <div style="font-size: 12px; display: flex; flex-direction: column; gap: 6px; color: var(--text-secondary);">
+                  <div>Projected Temp: <strong id="projTemp" style="color:#ffffff;">--°C</strong></div>
+                  <div>Projected Load: <strong id="projLoad" style="color:#ffffff;">--%</strong></div>
+                  <div>Projected Vib: <strong id="projVib" style="color:#ffffff;">-- mm/s</strong></div>
+                  <div>Projected Gap: <strong id="projMaint" style="color:#ffffff;">-- days</strong></div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Projected System Recommendations Under Scenario -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Projected Recommended Actions</div>
+              </div>
+              <div id="simRecsContainer" style="display: flex; flex-direction: column; gap: 8px;">
+                <!-- Filled via JS -->
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/simulation.js"></script>
+</body>
+</html>
