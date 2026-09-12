@@ -30,19 +30,24 @@ async function populateAssetDropdown(targetId) {
     const res = await API.getAssets({ per_page: 50 });
     const assets = res.assets || [];
 
-    select.innerHTML = assets.map(a => `
-      <option value="${a.id}">${a.asset_tag} — ${a.name} (${a.substation}) [Risk: ${a.current_risk_score}]</option>
-    `).join("");
+    if (!assets.length) {
+      select.innerHTML = '<option value="">Generic Synthetic Transformer (Default Baseline)</option>';
+      currentSimAssetId = null;
+    } else {
+      select.innerHTML = assets.map(a => `
+        <option value="${a.id}">${a.asset_tag} — ${a.name} (${a.substation}) [Risk: ${a.current_risk_score}]</option>
+      `).join("");
 
-    if (targetId && assets.some(a => a.id == targetId)) {
-      select.value = targetId;
-      currentSimAssetId = targetId;
-    } else if (assets.length > 0) {
-      currentSimAssetId = assets[0].id;
+      if (targetId && assets.some(a => a.id == targetId)) {
+        select.value = targetId;
+        currentSimAssetId = targetId;
+      } else {
+        currentSimAssetId = assets[0].id;
+      }
     }
 
     select.addEventListener("change", () => {
-      currentSimAssetId = select.value;
+      currentSimAssetId = select.value || null;
       triggerSimulation();
     });
   } catch (err) {
@@ -80,16 +85,23 @@ function updateSliderLabels() {
 }
 
 async function triggerSimulation() {
-  if (!currentSimAssetId) return;
-
   const payload = {
-    asset_id: parseInt(currentSimAssetId, 10),
     delta_load_pct: parseFloat(document.getElementById("sliderLoad").value),
     delta_temp_c: parseFloat(document.getElementById("sliderTemp").value),
     delta_vibration_mms: parseFloat(document.getElementById("sliderVib").value),
     delta_maint_days: parseInt(document.getElementById("sliderMaint").value, 10),
     delta_faults: parseInt(document.getElementById("sliderFaults").value, 10),
   };
+
+  if (currentSimAssetId) {
+    payload.asset_id = parseInt(currentSimAssetId, 10);
+  } else {
+    payload.base_temp = 65.0;
+    payload.base_vib = 1.8;
+    payload.base_load = 68.0;
+    payload.base_days_maint = 120;
+    payload.base_faults = 0;
+  }
 
   try {
     const res = await API.simulateWhatIf(payload);

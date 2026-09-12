@@ -37,6 +37,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function loadAssetProfile() {
   try {
     const data = await API.getAsset(currentAssetId);
+    if (!data || !data.asset) {
+      document.getElementById("headerAssetTag").textContent = "Asset Profile Unavailable";
+      document.getElementById("detailAssetTag").textContent = "N/A";
+      document.getElementById("detailAssetName").textContent = "No Asset Selected";
+      document.getElementById("detailSubstation").textContent = "Please select or create an asset from the Fleet Catalog.";
+      document.getElementById("detailRiskScore").textContent = "--";
+      document.getElementById("detailProbScore").textContent = "--";
+      
+      const emptyBanner = document.createElement("div");
+      emptyBanner.className = "card";
+      emptyBanner.style.marginBottom = "20px";
+      emptyBanner.innerHTML = `
+        <div style="padding:24px; text-align:center; color:var(--text-secondary);">
+          <h3 style="color:#ffffff; margin-bottom:8px;">No Transformer Asset Found</h3>
+          <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">
+            The requested asset ID is not present in the database, or no assets have been registered yet.
+          </p>
+          <a href="assets.html" class="btn btn-primary">Open Fleet Catalog</a>
+        </div>
+      `;
+      const mainGrid = document.querySelector(".dashboard-grid");
+      if (mainGrid && mainGrid.parentElement) {
+        mainGrid.parentElement.insertBefore(emptyBanner, mainGrid);
+      }
+      return;
+    }
+
     const a = data.asset || {};
     const risk = data.risk_analysis || {};
     const ml = data.ml_prediction || {};
@@ -53,7 +80,7 @@ async function loadAssetProfile() {
     healthBadge.textContent = a.health_status;
     healthBadge.className = `badge ${getBadgeClass(a.health_status)}`;
 
-    document.getElementById("detailOpStatus").textContent = a.current_status.replace("_", " ");
+    document.getElementById("detailOpStatus").textContent = (a.current_status || "OPERATIONAL").replace("_", " ");
 
     // Metadata Grid
     document.getElementById("metaCapacity").textContent = `${a.rated_capacity_kva} kVA`;
@@ -77,6 +104,7 @@ async function loadAssetProfile() {
 
   } catch (err) {
     console.error("Error loading asset profile:", err);
+    document.getElementById("headerAssetTag").textContent = "Asset Not Found";
   }
 }
 
@@ -86,7 +114,20 @@ async function loadAssetTelemetry() {
     const readings = res.readings || [];
     const summary = res.summary || {};
 
-    if (!readings.length) return;
+    if (!readings.length) {
+      document.getElementById("liveTemp").textContent = "--";
+      document.getElementById("liveLoad").textContent = "--";
+      document.getElementById("liveVib").textContent = "--";
+      document.getElementById("liveOil").textContent = "--";
+      document.getElementById("chartTempStats").textContent = "No telemetry readings recorded";
+      document.getElementById("chartLoadStats").textContent = "No telemetry readings recorded";
+      document.getElementById("chartVibStats").textContent = "No telemetry readings recorded";
+      ["svgTempChart", "svgLoadChart", "svgVibChart"].forEach(id => {
+        const svg = document.getElementById(id);
+        if (svg) svg.innerHTML = '<text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#64748b" font-size="12">No telemetry stream recorded</text>';
+      });
+      return;
+    }
 
     const latest = readings[readings.length - 1];
     document.getElementById("liveTemp").textContent = `${latest.temperature_c}°C`;

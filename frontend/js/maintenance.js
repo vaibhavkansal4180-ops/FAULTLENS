@@ -37,7 +37,15 @@ async function loadTasks() {
     document.getElementById("tasksCountLabel").textContent = `Showing ${tasks.length} total work orders`;
 
     if (!tasks.length) {
-      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:var(--text-muted);">No maintenance tasks match criteria.</td></tr>';
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="8" style="text-align:center; padding:36px 16px; color:var(--text-secondary);">
+            <div style="font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:4px;">No Maintenance Tasks in Queue</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">The 7-stage maintenance lifecycle queue is clear. Create a task or dispatch action as needed.</div>
+            <button class="btn btn-outline btn-sm" onclick="document.getElementById('openCreateTaskBtn').click()">+ Create Maintenance Task</button>
+          </td>
+        </tr>
+      `;
       return;
     }
 

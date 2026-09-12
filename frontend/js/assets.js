@@ -91,7 +91,28 @@ async function loadAssets() {
     document.getElementById("nextPageBtn").disabled = !p.has_next;
 
     if (!assets.length) {
-      tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; color:var(--text-muted);">No transformer assets matched criteria.</td></tr>';
+      if (!p.total || p.total === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="10" style="text-align:center; padding:48px 16px; color:var(--text-secondary);">
+              <div style="font-size:16px; font-weight:700; color:var(--text-primary); margin-bottom:6px;">No Transformer Assets Registered Yet</div>
+              <div style="font-size:13px; color:var(--text-muted); margin-bottom:16px; max-width:480px; margin-left:auto; margin-right:auto;">
+                The production fleet database is clean. Register your first substation transformer asset to initiate health scoring, telemetry monitoring, and predictive risk ranking.
+              </div>
+              <button class="btn btn-primary" onclick="document.getElementById('openCreateModalBtn').click()">+ Register New Transformer Asset</button>
+            </td>
+          </tr>
+        `;
+      } else {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="10" style="text-align:center; padding:32px 16px; color:var(--text-muted);">
+              No transformer assets matched the selected search or filter criteria.
+              <div style="margin-top:8px;"><button class="btn btn-outline btn-sm" onclick="document.getElementById('resetFiltersBtn').click()">Reset Filters</button></div>
+            </td>
+          </tr>
+        `;
+      }
       return;
     }
 

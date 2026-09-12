@@ -29,18 +29,46 @@ class Config:
     SESSION_COOKIE_SECURE = os.environ.get("SESSION_COOKIE_SECURE", "0").lower() in ("1", "true", "yes")
 
     # Database configuration
-    db_url = os.environ.get("DATABASE_URL", "").strip()
+    # Check all possible Neon and Vercel PostgreSQL environment variable names
+    candidates = [
+        os.environ.get("DATABASE2_DATABASE_URL"),
+        os.environ.get("DATABASE_URL"),
+        os.environ.get("POSTGRES_URL"),
+        os.environ.get("DATABASE2_POSTGRES_URL"),
+        os.environ.get("DATABASE2_POSTGRES_URL_NON_POOLING"),
+        os.environ.get("DATABASE2_DATABASE_URL_UNPOOLED"),
+        os.environ.get("DATABASE2_POSTGRES_PRISMA_URL"),
+    ]
+    db_url = ""
+    # Prioritize any valid postgres connection string
+    for cand in candidates:
+        if cand and isinstance(cand, str) and cand.strip():
+            c_clean = cand.strip()
+            if c_clean.startswith("postgres://") or c_clean.startswith("postgresql://"):
+                db_url = c_clean
+                break
+
+    # Fallback to any non-empty candidate
+    if not db_url:
+        for cand in candidates:
+            if cand and isinstance(cand, str) and cand.strip():
+                db_url = cand.strip()
+                break
 
     if db_url:
         # Standardize postgres:// to postgresql:// for SQLAlchemy 2.x
         if db_url.startswith("postgres://"):
             db_url = db_url.replace("postgres://", "postgresql://", 1)
+        # Ensure sslmode=require for Neon database hosts if missing
+        if "neon.tech" in db_url and "sslmode" not in db_url:
+            sep = "&" if "?" in db_url else "?"
+            db_url = f"{db_url}{sep}sslmode=require"
         SQLALCHEMY_DATABASE_URI = db_url
     else:
         if ENV == "production":
             raise RuntimeError(
-                "CRITICAL CONFIGURATION ERROR: DATABASE_URL environment variable is required "
-                "in production environments. Do not use local SQLite in production."
+                "CRITICAL CONFIGURATION ERROR: DATABASE_URL (or DATABASE2_DATABASE_URL / POSTGRES_URL) "
+                "environment variable is required in production environments. Do not use local SQLite in production."
             )
         # Local development / test fallback
         local_db_path = BASE_DIR / "faultlens.db"

@@ -42,8 +42,14 @@ function renderRiskDistribution(dist, total) {
   const container = document.getElementById("riskDistributionContainer");
   if (!container) return;
 
-  if (!dist.length) {
-    container.innerHTML = '<div style="color:var(--text-muted); font-size:12px;">No risk data available.</div>';
+  if (!total || total === 0 || !dist.length) {
+    container.innerHTML = `
+      <div style="padding:16px 8px; text-align:center; color:var(--text-secondary);">
+        <div style="font-size:13px; font-weight:600; color:var(--text-primary); margin-bottom:4px;">No Infrastructure Assets Registered</div>
+        <div style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">Fleet telemetry and health distribution will populate when assets are added.</div>
+        <a href="assets.html" class="btn btn-outline btn-sm">+ Register First Transformer</a>
+      </div>
+    `;
     return;
   }
 
@@ -68,7 +74,12 @@ function renderRecentAlerts(alerts) {
   if (!container) return;
 
   if (!alerts.length) {
-    container.innerHTML = '<div style="color:var(--text-muted); font-size:12px; padding:8px 0;">No active alerts recorded.</div>';
+    container.innerHTML = `
+      <div style="padding:16px 12px; text-align:center; background:var(--bg-secondary); border:1px solid var(--border-dim); border-radius:var(--radius-md);">
+        <div style="font-size:12px; font-weight:600; color:var(--status-healthy); margin-bottom:2px;">✓ All Systems Nominal</div>
+        <div style="font-size:11px; color:var(--text-muted);">No active operational alerts or threshold violations recorded.</div>
+      </div>
+    `;
     return;
   }
 
@@ -97,7 +108,15 @@ async function loadPriorityQueue() {
     const assets = res.priority_assets || [];
 
     if (!assets.length) {
-      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:var(--text-muted);">No assets in queue.</td></tr>';
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="8" style="text-align:center; padding:32px 16px; color:var(--text-secondary);">
+            <div style="font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:4px;">No Assets Requiring Maintenance Intervention</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">The priority dispatch queue is currently clear. Registered assets will be dynamically ranked here by failure probability and risk.</div>
+            <a href="assets.html" class="btn btn-outline btn-sm">+ Register First Transformer</a>
+          </td>
+        </tr>
+      `;
       return;
     }
 

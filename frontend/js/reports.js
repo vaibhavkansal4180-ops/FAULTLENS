@@ -22,7 +22,15 @@ async function loadReports() {
     document.getElementById("reportsCountLabel").textContent = `Displaying ${reports.length} field observations`;
 
     if (!reports.length) {
-      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--text-muted);">No field reports found.</td></tr>';
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align:center; padding:36px 16px; color:var(--text-secondary);">
+            <div style="font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:4px;">No Field Incident Reports Filed</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Field observations and technician inspection notes will be logged here to feed into continuous risk analysis.</div>
+            <button class="btn btn-outline btn-sm" onclick="document.getElementById('openReportModalBtn').click()">+ Submit Incident Report</button>
+          </td>
+        </tr>
+      `;
       return;
     }
 

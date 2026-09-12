@@ -34,7 +34,14 @@ async function loadAlerts() {
     document.getElementById("resCountBadge").textContent = counts.resolved ?? 0;
 
     if (!alerts.length) {
-      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--text-muted);">No ${currentAlertStatus.toLowerCase()} alerts.</td></tr>`;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align:center; padding:36px 16px; color:var(--text-secondary);">
+            <div style="font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:4px;">No ${currentAlertStatus.toLowerCase()} Alerts Recorded</div>
+            <div style="font-size:12px; color:var(--text-muted);">All transformer assets are operating within nominal thresholds. Anomalies and thermal spikes will trigger alerts here.</div>
+          </td>
+        </tr>
+      `;
       return;
     }
 

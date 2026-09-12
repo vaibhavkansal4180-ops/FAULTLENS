@@ -13,6 +13,7 @@ from backend.routes.reports import reports_bp
 from backend.routes.prediction import prediction_bp
 from backend.routes.dashboard import dashboard_bp
 from backend.routes.simulation import simulation_bp
+from backend.routes.admin import admin_bp
 
 
 def create_app(config_class=Config):
@@ -33,6 +34,30 @@ def create_app(config_class=Config):
     app.register_blueprint(prediction_bp)
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(simulation_bp)
+    app.register_blueprint(admin_bp)
+
+    # Automatically ensure schema tables exist in connected database
+    with app.app_context():
+        try:
+            db.create_all()
+            if os.environ.get("CLEAN_DEMO_DATA_ON_BOOT", "").lower() in ("1", "true", "yes"):
+                from backend.models import (
+                    MaintenanceTask, Alert, RiskAssessment, IncidentReport,
+                    Inspection, MaintenanceRecord, TelemetryReading, TransformerAsset, User
+                )
+                db.session.query(MaintenanceTask).delete()
+                db.session.query(Alert).delete()
+                db.session.query(RiskAssessment).delete()
+                db.session.query(IncidentReport).delete()
+                db.session.query(Inspection).delete()
+                db.session.query(MaintenanceRecord).delete()
+                db.session.query(TelemetryReading).delete()
+                db.session.query(TransformerAsset).delete()
+                db.session.query(User).delete()
+                db.session.commit()
+                app.logger.info("Demo records automatically cleared on boot.")
+        except Exception as e:
+            app.logger.warning(f"Database initialization notice: {e}")
 
     # Resolve frontend directory path
     frontend_dir = Path(__file__).resolve().parent.parent / "frontend"
